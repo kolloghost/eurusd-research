@@ -30,7 +30,7 @@ data:
 
 measurement:
   predictor_definition: "Seeded random direction: LONG or SHORT"
-  target_definition: "Executable net P&L in pips from next available tick entry to first tick at or after 60m target"
+  target_definition: "Gross mid-price P&L and executable net bid/ask P&L in pips from next available tick entry to first tick at or after the 60m target"
   units: "pips per trade"
   lookback: "none"
   threshold: "none"
@@ -68,7 +68,7 @@ baseline:
   specification: "15m completed bars; 60m holding horizon; seeded random LONG/SHORT direction; non-overlapping trades"
 
 statistics:
-  method: "Mean, median, standard error, 95% confidence interval, hit rate, gross/net P&L, cost drag, profit factor"
+  method: "Mean, median, sample standard error, 95% normal CI using 1.96×SE, hit rate, gross/net P&L, cost drag, profit factor"
   dependence_adjustment: "Non-overlapping trades; no additional dependence adjustment established for this baseline"
   confidence_level: 0.95
   random_seed: 20150101
