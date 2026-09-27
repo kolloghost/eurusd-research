@@ -1,0 +1,18 @@
+You are the agent assigned to `TASK-001 — January 2015 Controlled Research Start`.
+
+Read the project's `QUANT_FX_CFD_MASTER_AI_HANDOFF_UPDATED.md`, locked research rules, your role/protocol files, the H0 experiment specification, and `ai/delegation/TASK-001_January_2015.md`.
+
+Work on JANUARY 2015 ONLY.
+
+Your first response must state:
+- your role
+- TASK-001
+- the exact files you will inspect
+- the locked execution rules that apply
+- the deliverables you will produce
+
+Then perform the work from the actual repository.
+
+Do not fabricate results. Do not change research rules because of results. Do not add February. Do not mix OTC and CFD data. Use Python/repository calculations as the numerical authority.
+
+Before finishing, independently recalculate the January H0 summary from the saved trade log and submit the result using `ai/delegation/result_submission_template.md`.
