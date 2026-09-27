@@ -1,0 +1,112 @@
+experiment_id: "EXP-YYYY-NNN"
+
+status: "DRAFT"
+
+title: ""
+
+hypothesis:
+  statement: ""
+  mechanism: ""
+  expected_direction: ""
+  target_horizon: ""
+
+scope:
+  instrument: "EURUSD"
+  timeframe: "15m"
+  date_range:
+    start: ""
+    end: ""
+  session: ""
+  timezone: "UTC"
+
+data:
+  provider: ""
+  dataset: ""
+  version: ""
+  source_type: ""
+  bid_ask_available: true
+  transformation_pipeline: ""
+  exclusions: []
+
+measurement:
+  predictor_definition: ""
+  target_definition: ""
+  units: ""
+  lookback: ""
+  threshold: ""
+  partial_bar_policy: ""
+  missing_data_policy: ""
+
+information_boundary:
+  signal: "completed signal bar close"
+  lookahead_allowed: false
+
+execution:
+  entry: "next available tick"
+  exit: "first tick at or after holding horizon"
+  long_entry: "ASK"
+  long_exit: "BID"
+  short_entry: "BID"
+  short_exit: "ASK"
+  overlapping_trades: false
+
+cost_model:
+  spread: true
+  commission: true
+  slippage: true
+  delay: true
+  market_impact: true
+  financing: true
+  scenarios:
+    - base
+    - adverse
+    - stress
+
+baseline:
+  required: true
+  type: ""
+  specification: ""
+
+statistics:
+  method: ""
+  dependence_adjustment: ""
+  confidence_level: 0.95
+  random_seed: null
+
+multiple_testing:
+  exploratory: false
+  variants_planned: []
+  variants_attempted: []
+
+robustness:
+  planned_tests: []
+
+replication:
+  required: true
+  instruments:
+    - GBPUSD
+    - AUDUSD
+  timeframes:
+    - 30m
+    - 1h
+
+oos:
+  data_status: ""
+  oos_protected: true
+  contamination: false
+
+acceptance_criteria: []
+
+failure_criteria: []
+
+outputs:
+  report: ""
+  code: ""
+  raw_results: ""
+
+governance:
+  proposing_role: ""
+  auditing_roles: []
+  human_approval_required: true
+
+notes: ""
