@@ -1,0 +1,122 @@
+experiment_id: "EXP-2015-001"
+
+status: "COMPLETED"
+
+title: "Random executable baseline — EURUSD 15m signal / 60m hold"
+
+hypothesis:
+  statement: "A seeded random long/short direction should provide an executable null benchmark for EURUSD 15m signals held for 60 minutes."
+  mechanism: "Random direction has no predictive information; observed net performance primarily provides an execution-and-cost benchmark."
+  expected_direction: "Approximately zero gross directional edge before execution costs; negative net expectancy is permitted under realistic spread and execution costs."
+  target_horizon: "60m"
+
+scope:
+  instrument: "EURUSD"
+  timeframe: "15m"
+  date_range:
+    start: "2015-01-01"
+    end: "2015-12-31"
+  session: "full trading day"
+  timezone: "UTC"
+
+data:
+  provider: "Not recorded in current experiment evidence"
+  dataset: "EURUSD 2015 raw tick data"
+  version: "2015 raw-data checkpoint bb548c2"
+  source_type: "OTC tick data; exact provider provenance not recorded in this spec"
+  bid_ask_available: true
+  transformation_pipeline: "raw bid/ask ticks → normalized UTC ticks → 15m bars"
+  exclusions: []
+
+measurement:
+  predictor_definition: "Seeded random direction: LONG or SHORT"
+  target_definition: "Executable net P&L in pips from next available tick entry to first tick at or after 60m target"
+  units: "pips per trade"
+  lookback: "none"
+  threshold: "none"
+  partial_bar_policy: "Exclude 15m bars where observed_minutes is less than 15"
+  missing_data_policy: "No synthetic gap interpolation; use next available tick according to execution rules"
+
+information_boundary:
+  signal: "completed signal bar close"
+  lookahead_allowed: false
+
+execution:
+  entry: "next available tick"
+  exit: "first tick at or after holding horizon"
+  long_entry: "ASK"
+  long_exit: "BID"
+  short_entry: "BID"
+  short_exit: "ASK"
+  overlapping_trades: false
+
+cost_model:
+  spread: true
+  commission: true
+  slippage: true
+  delay: true
+  market_impact: true
+  financing: true
+  scenarios:
+    - base
+    - adverse
+    - stress
+
+baseline:
+  required: true
+  type: "random executable null baseline"
+  specification: "15m completed bars; 60m holding horizon; seeded random LONG/SHORT direction; non-overlapping trades"
+
+statistics:
+  method: "Mean, median, standard error, 95% confidence interval, hit rate, gross/net P&L, cost drag, profit factor"
+  dependence_adjustment: "Non-overlapping trades; no additional dependence adjustment established for this baseline"
+  confidence_level: 0.95
+  random_seed: 20150101
+
+multiple_testing:
+  exploratory: false
+  variants_planned: []
+  variants_attempted: []
+
+robustness:
+  planned_tests: []
+
+replication:
+  required: true
+  instruments:
+    - GBPUSD
+    - AUDUSD
+  timeframes:
+    - 30m
+    - 1h
+
+oos:
+  data_status: "2015 EURUSD raw tick dataset; derived normalized ticks and 15m bars available"
+  oos_protected: false
+  contamination: false
+
+acceptance_criteria:
+  - "Use as an executable null benchmark rather than as a trading strategy"
+  - "Preserve locked information boundary and bid/ask execution rules"
+  - "Report gross and net performance separately"
+
+failure_criteria:
+  - "Lookahead or use of information unavailable at completed signal-bar close"
+  - "Violation of next-tick entry or bid/ask side rules"
+  - "Silent interpolation or removal of market gaps"
+
+outputs:
+  report: "reports/h0_random_15m_60m_2015.csv"
+  code: "src/h0_random_baseline.py"
+  raw_results: "reports/h0_random_15m_60m_2015.csv"
+
+governance:
+  proposing_role: "research_lead"
+  auditing_roles:
+    - data_engineer
+    - statistical_auditor
+    - execution_cost_auditor
+    - adversarial_falsifier
+  human_approval_required: true
+
+notes: "Current implementation result: N=4,711; mean net=-3.7274 pips/trade; median=-5.0000; SE=2.5023; 95% CI=[-8.6320,+1.1771]; win rate=47.65%; gross=+585.50 pips; net=-17,560.00 pips; cost drag=18,145.50 pips; PF=0.9353. These values describe the current H0 implementation and should not be reconciled with earlier handoff baseline figures without a separate investigation."

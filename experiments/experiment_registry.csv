@@ -1,0 +1,2 @@
+experiment_id,status,title,instrument,timeframe,start_date,end_date,hypothesis_type,baseline,random_seed,oos_status,report,code
+EXP-2015-001,COMPLETED,"Random executable baseline — EURUSD 15m signal / 60m hold",EURUSD,15m,2015-01-01,2015-12-31,random_null,TRUE,20150101,DEVELOPMENT_REFERENCE,reports/h0_random_15m_60m_2015.csv,src/h0_random_baseline.py
