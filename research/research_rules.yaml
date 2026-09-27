@@ -1,0 +1,270 @@
+project:
+  name: "EURUSD Quantitative FX/CFD Research"
+  objective: >
+    Determine whether a measurable variable X observed before or at time t
+    contains incremental information about subsequent FX returns R(t+h),
+    and whether that information remains statistically and economically
+    positive after realistic costs, execution effects, robustness testing,
+    independent replication, and untouched out-of-sample testing.
+
+  primary_market: "EURUSD"
+  target_market: "Retail FX CFDs"
+  reference_market: "OTC FX"
+
+  conclusion_if_not_supported: "NO ROBUST EDGE FOUND"
+
+research_sequence:
+  - OBSERVATION
+  - MECHANISM
+  - HYPOTHESIS
+  - MEASUREMENT
+  - BASELINE
+  - BACKTEST
+  - COST_ADJUSTMENT
+  - ROBUSTNESS_TEST
+  - OUT_OF_SAMPLE
+  - PAPER_TRADING
+  - FALSIFICATION
+  - CONCLUSION
+
+locked_market_scope:
+  primary_pair: "EURUSD"
+  replication_pairs:
+    - "GBPUSD"
+    - "AUDUSD"
+
+  primary_timeframe: "15m"
+  replication_timeframes:
+    - "30m"
+    - "1h"
+
+  timezone_internal: "UTC"
+
+  primary_session: "London/New York overlap"
+  session_definition_status: "OPEN_QUESTION"
+  session_definition_rule: >
+    Do not invent exact session boundaries. Record and approve the
+    definition before using session-based hypotheses.
+
+locked_execution:
+  signal_information_cutoff: "completed signal bar close"
+  entry: "next available tick after signal"
+  exit: "first tick at or after holding horizon"
+
+  long:
+    entry_price: "ASK"
+    exit_price: "BID"
+
+  short:
+    entry_price: "BID"
+    exit_price: "ASK"
+
+  historical_bid_ask_preferred: true
+  preferred_trade_structure: "non-overlapping"
+
+  overlapping_trade_inference:
+    required_methods:
+      - "dependence-aware inference"
+      - "robust_or_clustered_standard_errors"
+      - "block_bootstrap"
+
+locked_cost_model:
+  report_separately:
+    - "gross_return"
+    - "net_return"
+    - "cost_drag"
+
+  costs:
+    - "spread"
+    - "commission"
+    - "slippage"
+    - "execution_delay"
+    - "liquidity_or_market_impact"
+    - "financing_or_swap_when_applicable"
+
+  scenarios:
+    - "base"
+    - "adverse"
+    - "stress"
+
+data_rules:
+  internal_timezone: "UTC"
+
+  quality_checks:
+    - "duplicate_timestamps"
+    - "missing_values"
+    - "invalid_prices"
+    - "bid_greater_than_ask"
+    - "zero_or_negative_spreads"
+    - "abnormal_spreads"
+    - "stale_quotes"
+    - "weekend_and_holiday_gaps"
+    - "rollover_periods"
+    - "timestamp_integrity"
+    - "cross_source_consistency"
+
+  extreme_observations:
+    delete_automatically: false
+    rule: "Investigate rather than silently delete."
+
+  raw_data:
+    immutable: true
+    preserve_original_files: true
+
+data_hierarchy:
+  priority:
+    - "same_broker_CFD_bid_ask_ticks"
+    - "independent_OTC_bid_ask_ticks"
+    - "CME_micro_FX_controls"
+
+  broker_data:
+    keep_brokers_separate: true
+    never_average_broker_prices: true
+
+hypotheses:
+  H0:
+    name: "Random Entry"
+    purpose: "Executable random benchmark"
+
+  H1:
+    name: "Time of Day"
+    question: "Does time-of-day contain incremental information?"
+
+  H2:
+    name: "Momentum"
+    question: "Does recent directional movement predict subsequent movement?"
+
+  H3:
+    name: "Mean Reversion"
+    question: "Do unusually large recent moves predict subsequent reversal?"
+
+  H4:
+    name: "Volatility Conditioning"
+    question: >
+      Does recent volatility predict future movement and/or improve
+      directional trading after conditioning?
+
+  H5:
+    name: "Macro News Response"
+    question: >
+      Does the market respond predictably to macroeconomic surprises?
+    surprise_definition: "actual_minus_consensus"
+
+  H6:
+    name: "Cross Pair Lead Lag"
+    question: >
+      Does one currency pair contain incremental information about another
+      after controlling for common USD exposure?
+
+  H7:
+    name: "Retail Order Flow"
+    question: >
+      Can measurable retail flow contain predictive information?
+
+statistics:
+  required_metrics:
+    - "N"
+    - "number_of_trades"
+    - "mean_return"
+    - "median_return"
+    - "standard_error"
+    - "confidence_interval"
+    - "hit_rate"
+    - "expectancy"
+    - "profit_factor_when_meaningful"
+    - "drawdown"
+    - "turnover"
+    - "exposure"
+    - "gross_return"
+    - "net_return"
+    - "cost_drag"
+    - "distribution_and_skew_when_relevant"
+    - "dependence"
+    - "statistical_significance"
+    - "economic_significance"
+
+  allowed_methods:
+    - "robust_or_clustered_standard_errors"
+    - "non_overlapping_samples"
+    - "block_bootstrap"
+    - "permutation_or_randomization_tests"
+    - "multiple_testing_correction"
+
+  rule: >
+    Do not rely solely on p-values. Report effect size, uncertainty,
+    economic significance, and dependence.
+
+multiple_testing:
+  track_specifications_tested: true
+  track_hypotheses_tested: true
+  required_disclosure: true
+
+  possible_methods:
+    - "multiple_testing_correction"
+    - "White Reality Check"
+    - "Hansen SPA"
+    - "permutation_placebo_tests"
+    - "holdout_out_of_sample"
+    - "independent_replication"
+
+robustness:
+  required_categories:
+    - "parameter"
+    - "time"
+    - "regime"
+    - "cost"
+    - "execution"
+    - "market"
+    - "data_source"
+    - "placebo"
+    - "overfitting"
+    - "resampling"
+
+temporal_design:
+  development: "2015-2020"
+  validation: "2021-2023"
+  untouched_oos: "2024-2025"
+  paper_or_live_research: "2026_onward"
+
+  status: "PROVISIONAL"
+  rule: >
+    Exact boundaries may only be revised after inspecting actual data
+    availability and quality. Untouched OOS must remain inaccessible to
+    development optimization.
+
+ai_governance:
+  ai_is_not_authority: true
+  python_and_tests_are_measurement_authority: true
+  git_is_change_history_authority: true
+  human_approval_required_for_locked_rule_changes: true
+
+  ai_must_not:
+    - "invent_missing_methodological_definitions"
+    - "use_future_information"
+    - "modify_OOS_rules_to_improve_results"
+    - "delete_bad_results"
+    - "delete_extreme_observations_without_approved_reason"
+    - "select_only_profitable_configurations"
+    - "change_strategy_rules_month_by_month_to_chase_results"
+    - "claim_robustness_from_one_positive_result"
+    - "treat_AI_consensus_as_statistical_evidence"
+    - "merge_broker_specific_price_series"
+    - "silently_change_locked_execution_rules"
+
+  ai_must:
+    - "state_assumptions"
+    - "identify_open_questions"
+    - "record_specifications_tested"
+    - "preserve_reproducibility"
+    - "run_or_request_tests"
+    - "report_negative_results"
+    - "distinguish_observation_from_evidence"
+    - "distinguish_gross_from_net"
+    - "distinguish_predictability_from_tradability"
+
+open_questions:
+  - "Exact London/New York overlap UTC definition"
+  - "Final broker-specific execution specifications"
+  - "Broker historical bid/ask availability"
+  - "Exact commission and financing models"
+  - "Final H5/H6/H7 data sources"
