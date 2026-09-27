@@ -1,0 +1,46 @@
+run_id: "RUN-YYYY-NNN"
+experiment_id: "EXP-YYYY-NNN"
+
+status: "PLANNED"
+
+repository:
+  branch: ""
+  commit: ""
+
+execution:
+  command: ""
+  environment: ""
+  python_version: ""
+  platform: ""
+  started_utc: ""
+  completed_utc: ""
+
+inputs:
+  raw_data_reference: ""
+  derived_data_reference: ""
+  data_manifest: ""
+  code: ""
+
+reproducibility:
+  random_seed: null
+  deterministic: true
+  rerun_verified: false
+  independent_result_check: false
+
+outputs:
+  report: ""
+  trade_log: ""
+  summary: ""
+
+audit:
+  specification_match: "PENDING"
+  execution_match: "PENDING"
+  data_quality: "PENDING"
+  statistical_audit: "PENDING"
+  adversarial_audit: "PENDING"
+
+oos:
+  protected: false
+  contamination: false
+
+notes: ""
